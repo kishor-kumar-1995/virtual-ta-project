@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
@@ -9,7 +9,7 @@ import pytesseract
 from PIL import Image
 from io import BytesIO
 
-# Load course content and discourse data
+# Load JSON data
 with open("course_content.json", "r", encoding="utf-8") as f:
     course_data = json.load(f)
 
@@ -18,7 +18,6 @@ with open("discourse_posts.json", "r", encoding="utf-8") as f:
 
 app = FastAPI()
 
-# Enable CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -26,7 +25,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Request & Response Models
 class QueryRequest(BaseModel):
     question: str
     image_base64: Optional[str] = None
@@ -34,8 +32,8 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     answer: str
     references: Dict[str, str]
+    links: Dict[str, str] = {}
 
-# Answer-finding logic
 def search_json_for_answer(json_data: Any, question: str) -> List[str]:
     matches = []
     threshold = 0.5
@@ -59,7 +57,10 @@ def search_json_for_answer(json_data: Any, question: str) -> List[str]:
     recursive_search(json_data)
     return matches
 
-# POST route: /api/
+@app.get("/")
+async def root():
+    return {"message": "Virtual TA is running"}
+
 @app.post("/api/", response_model=QueryResponse)
 async def answer_question(query: QueryRequest):
     question = query.question.strip()
@@ -77,7 +78,8 @@ async def answer_question(query: QueryRequest):
     if course_matches:
         return QueryResponse(
             answer=course_matches[0],
-            references={"source": "course_content.json"}
+            references={"source": "course_content.json"},
+            links={"source": "course_content.json"},
         )
 
     discourse_matches = search_json_for_answer(discourse_data, question)
@@ -87,17 +89,12 @@ async def answer_question(query: QueryRequest):
             if post["excerpt"] in best_match:
                 return QueryResponse(
                     answer=post["excerpt"],
-                    references={post["title"]: post["url"]}
+                    references={post["title"]: post["url"]},
+                    links={post["title"]: post["url"]},
                 )
 
-    return QueryResponse(answer="Sorry, I couldn't find an answer based on the available data.", references={})
-
-# ✅ NEW: POST route at root /
-@app.post("/", response_model=QueryResponse)
-async def root_post(query: QueryRequest):
-    return await answer_question(query)
-
-# ✅ NEW: GET route at root / (for health check)
-@app.get("/")
-def root_get():
-    return {"status": "Virtual TA is live"}
+    return QueryResponse(
+        answer="Sorry, I couldn't find an answer based on the available data.",
+        references={},
+        links={}
+    )
