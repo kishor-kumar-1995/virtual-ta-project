@@ -1,0 +1,103 @@
+{
+    "course_title": "Tools in Data Science",
+    "course_intro": "Tools in Data Science is a practical diploma level data science course at IIT Madras that teaches\npopular tools for sourcing data, transforming it, analyzing it, communicating these as visual stories, and deploying them in production.\nThe content evolves with technology and feedback.\nTrack the commit history for changes.\nReleased content:",
+    "modules": [
+        "Development Tools and concepts to build models and apps. Discussion Thread",
+        "Deployment Tools and concepts to publish what you built. Discussion Thread",
+        "Data Sourcing to get data from the web, files, and databases. Discussion Thread",
+        "Data Preparation to clean up and convert the inputs to the right format. Discussion Thread",
+        "Data Analysis to find surprising insights in the data.",
+        "Data Visualization to communicate those insights as visual stories.",
+        "15 Feb 2025: Project 1 deadline moved from 15 Jan 2025 to 16 Feb 2025.",
+        "Project 1 results will be released by 16 Mar 2025.",
+        "Project 2 moved from 21 Feb to 3 Mar 2025. Submission date moved from 17 Mar to 31 Mar 2025.",
+        "Projects test application. The projects test how well you apply what you learnt in a real-world context.",
+        "Tools in Data Science Public course home page"
+    ],
+    "evaluation_table": [
+        {
+            "Exam": "GA: Graded assignments",
+            "Type": "Best 4 out of 7 ‡",
+            "Weight": "15%",
+            "Release Date": NaN,
+            "Submission Date": NaN
+        },
+        {
+            "Exam": "Graded Assignment 1",
+            "Type": "Online open MCQ",
+            "Weight": NaN,
+            "Release Date": "30 Dec 2024",
+            "Submission Date": "26 Jan 2025"
+        },
+        {
+            "Exam": "Graded Assignment 2",
+            "Type": "Online open MCQ",
+            "Weight": NaN,
+            "Release Date": "3 Jan 2025",
+            "Submission Date": "2 Feb 2025"
+        },
+        {
+            "Exam": "Graded Assignment 3",
+            "Type": "Online open MCQ",
+            "Weight": NaN,
+            "Release Date": "15 Jan 2025",
+            "Submission Date": "5 Feb 2025"
+        },
+        {
+            "Exam": "Graded Assignment 4",
+            "Type": "Online open MCQ",
+            "Weight": NaN,
+            "Release Date": "31 Jan 2025",
+            "Submission Date": "9 Feb 2025"
+        },
+        {
+            "Exam": "P1: Project 1",
+            "Type": "Take-home open-Internet",
+            "Weight": "20%",
+            "Release Date": "19 Jan 2025",
+            "Submission Date": "16 Feb 2025"
+        },
+        {
+            "Exam": "Graded Assignment 5",
+            "Type": "Online open MCQ",
+            "Weight": NaN,
+            "Release Date": "7 Feb 2025",
+            "Submission Date": "21 Feb 2025"
+        },
+        {
+            "Exam": "Graded Assignment 6",
+            "Type": "Online open MCQ",
+            "Weight": NaN,
+            "Release Date": "28 Feb 2025",
+            "Submission Date": "16 Mar 2025"
+        },
+        {
+            "Exam": "P2: Project 2",
+            "Type": "Take-home open-Internet",
+            "Weight": "20%",
+            "Release Date": "3 Mar 2025",
+            "Submission Date": "31 Mar 2025"
+        },
+        {
+            "Exam": "Graded Assignment 7",
+            "Type": "Online open MCQ",
+            "Weight": NaN,
+            "Release Date": "14 Mar 2025",
+            "Submission Date": "26 Mar 2025"
+        },
+        {
+            "Exam": "ROE: Remote Online Exam",
+            "Type": "Online open-Internet MCQ",
+            "Weight": "20%",
+            "Release Date": "02 Mar 2025 13:00",
+            "Submission Date": "02 Mar 2025 13:45"
+        },
+        {
+            "Exam": "F: Final end-term",
+            "Type": "In-person, no internet, mandatory",
+            "Weight": "25%",
+            "Release Date": "13 Apr 2025",
+            "Submission Date": NaN
+        }
+    ]
+}
