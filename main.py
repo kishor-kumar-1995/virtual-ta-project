@@ -9,7 +9,7 @@ import pytesseract
 from PIL import Image
 from io import BytesIO
 
-# Load course content and discourse data from JSON files
+# Load course content and discourse data
 with open("course_content.json", "r", encoding="utf-8") as f:
     course_data = json.load(f)
 
@@ -18,7 +18,7 @@ with open("discourse_posts.json", "r", encoding="utf-8") as f:
 
 app = FastAPI()
 
-# Enable CORS for frontend access (optional)
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -26,6 +26,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Request & Response Models
 class QueryRequest(BaseModel):
     question: str
     image_base64: Optional[str] = None
@@ -34,9 +35,10 @@ class QueryResponse(BaseModel):
     answer: str
     references: Dict[str, str]
 
+# Answer-finding logic
 def search_json_for_answer(json_data: Any, question: str) -> List[str]:
     matches = []
-    threshold = 0.5  # Fuzzy match threshold (between 0 and 1)
+    threshold = 0.5
 
     def recursive_search(item):
         if isinstance(item, dict):
@@ -57,11 +59,11 @@ def search_json_for_answer(json_data: Any, question: str) -> List[str]:
     recursive_search(json_data)
     return matches
 
+# POST route: /api/
 @app.post("/api/", response_model=QueryResponse)
 async def answer_question(query: QueryRequest):
     question = query.question.strip()
 
-    # Extract text from image if provided
     if query.image_base64:
         try:
             image_data = base64.b64decode(query.image_base64)
@@ -71,7 +73,6 @@ async def answer_question(query: QueryRequest):
         except Exception as e:
             print("OCR error:", e)
 
-    # Search course content
     course_matches = search_json_for_answer(course_data, question)
     if course_matches:
         return QueryResponse(
@@ -79,7 +80,6 @@ async def answer_question(query: QueryRequest):
             references={"source": "course_content.json"}
         )
 
-    # Search discourse posts
     discourse_matches = search_json_for_answer(discourse_data, question)
     if discourse_matches:
         best_match = discourse_matches[0]
@@ -91,3 +91,13 @@ async def answer_question(query: QueryRequest):
                 )
 
     return QueryResponse(answer="Sorry, I couldn't find an answer based on the available data.", references={})
+
+# ✅ NEW: POST route at root /
+@app.post("/", response_model=QueryResponse)
+async def root_post(query: QueryRequest):
+    return await answer_question(query)
+
+# ✅ NEW: GET route at root / (for health check)
+@app.get("/")
+def root_get():
+    return {"status": "Virtual TA is live"}
